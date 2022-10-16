@@ -1,11 +1,11 @@
+import { AllRoutes } from './allroutes/AllRoutes'
 import './App.css'
-import { Navbar } from './components/Navbar'
 
 function App() {
 
   return (
     <div className="App">
-      <Navbar />
+      <AllRoutes />
     </div>
   )
 }
