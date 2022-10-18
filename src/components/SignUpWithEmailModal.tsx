@@ -4,6 +4,7 @@ import { FcPrevious } from 'react-icons/fc';
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { signupAPI } from '../redux/auth/auth.action';
+import { AppDispatch, RootState } from '../redux/store';
 
 type params = {
     isOpen: boolean;
@@ -14,10 +15,9 @@ type params = {
 export const SignUpWithEmailModal = ({ isOpen, onOpen, onClose }: params) => {
     const [email, setEmail] = useState<string>('');
     const { isOpen: confirm, onOpen: confirmOpen, onClose: confirmClose } = useDisclosure();
-    const { loading } = useSelector(store => store.auth);
+    const { loading } = useSelector((store: RootState) => store.auth);
     const [emailExs, setEmailExs] = useState<boolean>(false)
-    const dispatch = useDispatch();
-
+    const dispatch = useDispatch<AppDispatch>();
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();

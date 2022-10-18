@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { addTopicsAPI } from '../redux/auth/auth.action';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { AppDispatch, RootState } from '../redux/store';
 
 const topics = ['Programming', 'Data Science', 'Technology',
     'Self ImproveMent', 'Writing', 'Relationships', 'Machine Learning', 'Productivity',
@@ -15,8 +16,8 @@ const topics = ['Programming', 'Data Science', 'Technology',
     'Work', 'Lifestyle']
 export const CustomizeTopics = () => {
     const [selectedTopics, setTopics] = useState<Array<string>>([])
-    const { loading, data } = useSelector(store => store.auth);
-    const dispatch = useDispatch();
+    const { loading, data } = useSelector((store: RootState) => store.auth);
+    const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
 
     const select = (topic: string) => {

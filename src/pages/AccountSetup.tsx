@@ -4,9 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { signupConfirmLinkAPI, signupSuccessAPI } from "../redux/auth/auth.action";
+import { AppDispatch, RootState } from "../redux/store";
 
 export const AccountSetup = () => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const [params] = useSearchParams();
     const [email, setEmail] = useState<string>('');
     const [name, setName] = useState<string>('');
@@ -15,7 +16,7 @@ export const AccountSetup = () => {
     const token: string = params.get('token') || '';
     const navigate = useNavigate();
 
-    const { loading } = useSelector(store => store.auth);
+    const { loading } = useSelector((store: RootState) => store.auth);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();

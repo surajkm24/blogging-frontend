@@ -1,4 +1,4 @@
-import { AUTH_SUCCESS, AUTH_ERROR, AUTH_LOADING, AUTH_SIGNUP_SUCCESS, AUTH_REFRESHTOKEN, AUTH_UPDATEUSERDATA } from "./auth.types"
+import { AUTH_SUCCESS, AUTH_ERROR, AUTH_LOADING, AUTH_SIGNUP_SUCCESS, AUTH_REFRESHTOKEN, AUTH_UPDATEUSERDATA, AUTH_LOGOUT } from "./auth.types"
 import axios from 'axios';
 
 const baseurl = import.meta.env.VITE_BACKENDBASEURL;
@@ -65,9 +65,10 @@ export const getUserData = (token: string) => async (dispatch: Function) => {
             headers: { 'Authorization': token }
         });
         if (res.data !== 'Invalid token!') {
-            console.log(res.data)
-            dispatch({ type: AUTH_UPDATEUSERDATA, payload: { user: res.data } })
+            // console.log(res.data,1)
+            dispatch({ type: AUTH_UPDATEUSERDATA, payload: res.data })
         }
+        // console.log(res.data,2)
         return res.data
     }
     catch (e) {
@@ -81,9 +82,24 @@ export const refreshToken = (token: string) => async (dispatch: Function) => {
             headers: { 'RefreshToken': token }
         });
         if (res.data.message === 'Token regenerated successfully!') {
+            // console.log(res.data,3)
             dispatch({ type: AUTH_REFRESHTOKEN, payload: res.data.primaryToken })
         }
         return res.data
+    }
+    catch (e) {
+        return e;
+    }
+}
+
+export const logoutAPI = (primaryToken: string, refreshToken: string) => async (dispatch: Function) => {
+    dispatch({ type: AUTH_LOADING });
+    try {
+        let res = await axios.post(`${baseurl}/users/logout`, {
+            primaryToken, refreshToken
+        });
+        dispatch({ type: AUTH_LOGOUT });
+        return res.data;
     }
     catch (e) {
         return e;

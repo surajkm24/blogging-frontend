@@ -1,6 +1,6 @@
-import { AUTH_ERROR, AUTH_LOADING, AUTH_SUCCESS, AUTH_SIGNUP_SUCCESS, AUTH_REFRESHTOKEN, AUTH_UPDATEUSERDATA } from "./auth.types";
+import { AUTH_ERROR, AUTH_LOADING, AUTH_SUCCESS, AUTH_SIGNUP_SUCCESS, AUTH_REFRESHTOKEN, AUTH_UPDATEUSERDATA, AUTH_LOGOUT } from "./auth.types";
 
-type initState = {
+type auth = {
     primaryToken: String;
     refreshToken: String;
     loading: boolean;
@@ -8,7 +8,7 @@ type initState = {
     data: {}
 }
 
-const initState: initState = {
+const initState: auth = {
     primaryToken: localStorage.getItem('mediumPrimaryToken') || '',
     refreshToken: localStorage.getItem('mediumRefreshToken') || '',
     loading: false,
@@ -52,20 +52,33 @@ export const authReducer = (state = initState, action: any) => {
             }
         }
         case AUTH_UPDATEUSERDATA: {
-            return{
-                ...state,
-                loading: false,
-                error: false,
-                data: action.payload.user
-            }
-        }
-        case AUTH_REFRESHTOKEN: {
-            localStorage.setItem('mediumPrimaryToken', action.payload.primaryToken);
             return {
                 ...state,
                 loading: false,
                 error: false,
-                primaryToken: action.payload.primaryToken,
+                data: action.payload
+            }
+        }
+        case AUTH_REFRESHTOKEN: {
+            localStorage.setItem('mediumPrimaryToken', action.payload);
+            // console.log(localStorage.getItem('mediumPrimaryToken'),4,action.payload,'payload')
+            return {
+                ...state,
+                loading: false,
+                error: false,
+                primaryToken: action.payload,
+            }
+        }
+        case AUTH_LOGOUT: {
+            localStorage.removeItem('mediumPrimaryToken');
+            localStorage.removeItem('mediumRefreshToken');
+            return {
+                ...state,
+                loading:false,
+                error:false,
+                primaryToken:"",
+                refreshToken:"",
+                data:{}
             }
         }
         default: {
