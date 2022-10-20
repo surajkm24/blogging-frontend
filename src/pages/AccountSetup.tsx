@@ -7,7 +7,7 @@ import { signupConfirmLinkAPI, signupSuccessAPI } from "../redux/auth/auth.actio
 import { AppDispatch, RootState } from "../redux/store";
 
 export const AccountSetup = () => {
-    const dispatch = useDispatch<AppDispatch>();
+    const dispatch = useDispatch();
     const [params] = useSearchParams();
     const [email, setEmail] = useState<string>('');
     const [name, setName] = useState<string>('');
@@ -16,11 +16,11 @@ export const AccountSetup = () => {
     const token: string = params.get('token') || '';
     const navigate = useNavigate();
 
-    const { loading } = useSelector((store: RootState) => store.auth);
+    const { loading, primaryToken } = useSelector((store: RootState) => store.auth);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        dispatch(signupSuccessAPI({ name, email })).then((res: any) => {
+        dispatch<any>(signupSuccessAPI({ name, email, token })).then((res: any) => {
             if (res.message === 'Signup successful!') {
                 navigate('/customize-topics')
             }
@@ -28,7 +28,10 @@ export const AccountSetup = () => {
     }
 
     useEffect(() => {
-        dispatch(signupConfirmLinkAPI(token)).then((res: any) => {
+        if (primaryToken !== '') {
+            return navigate('/')
+        }
+        dispatch<any>(signupConfirmLinkAPI(token)).then((res: any) => {
             setTimeout(() => {
                 setShowLoader(false);
             }, 2000
@@ -42,7 +45,7 @@ export const AccountSetup = () => {
         })
     }, [])
 
-    return (
+    return (primaryToken === '') ? (
         <Box>
             <Flex align='center' justify='center' gap='7px' h='70px' >
                 <Icon as={BsMedium} fontSize='43px' />
@@ -88,5 +91,7 @@ export const AccountSetup = () => {
                 </Box>
             ) : null}
         </Box>
+    ) : (
+        <></>
     )
 }

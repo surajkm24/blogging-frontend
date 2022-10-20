@@ -8,28 +8,34 @@ import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from 'react';
 import { getUserData, refreshToken } from "../redux/auth/auth.action";
-import { AppDispatch, RootState } from "../redux/store";
+import { RootState } from "../redux/store";
+import { Blogs } from "../components/Blogs";
+import { HomepageSidebar } from "../components/HomepageSidebar";
 
 export const LoginHomePage = () => {
 
-    const auth = useSelector((store: RootState) => store.auth);
-    const dispatch = useDispatch<AppDispatch>();
-    // console.log(auth);
-    useEffect(() => {
-        dispatch(getUserData(auth.primaryToken)).then((res: any) => {
-            if (res === 'Invalid token!') {
-                dispatch(refreshToken(auth.refreshToken)).then((res: any) => {
-                    if (res.message === 'Token regenerated successfully!') {
-                        dispatch(getUserData(res.primaryToken));
-                    }
-                })
-            }
-        })
-    }, [])
+    // const auth = useSelector((store: RootState) => store.auth);
+    // const dispatch = useDispatch();
+    // // console.log(auth);
+    // useEffect(() => {
+    //     dispatch<any>(getUserData(auth.primaryToken)).then((res: any) => {
+    //         if (res === 'Invalid token!') {
+    //             dispatch<any>(refreshToken(auth.refreshToken)).then((res: any) => {
+    //                 if (res.message === 'Token regenerated successfully!') {
+    //                     dispatch<any>(getUserData(res.primaryToken));
+    //                 }
+    //             })
+    //         }
+    //     })
+    // }, [])
 
     return (
         <Box>
             <NavbarAuth />
+            <Box display='flex'>
+                <Blogs />
+                <HomepageSidebar />
+            </Box>
         </Box>
     )
 }

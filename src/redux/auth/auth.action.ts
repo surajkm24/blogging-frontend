@@ -1,4 +1,4 @@
-import { AUTH_SUCCESS, AUTH_ERROR, AUTH_LOADING, AUTH_SIGNUP_SUCCESS, AUTH_REFRESHTOKEN, AUTH_UPDATEUSERDATA, AUTH_LOGOUT } from "./auth.types"
+import { AUTH_SUCCESS, AUTH_ERROR, AUTH_LOADING, AUTH_SIGNUP_SUCCESS, AUTH_REFRESHTOKEN, AUTH_UPDATEUSERDATA, AUTH_LOGOUT, AUTH_LOGINSUCCESS } from "./auth.types"
 import axios from 'axios';
 
 const baseurl = import.meta.env.VITE_BACKENDBASEURL;
@@ -31,12 +31,15 @@ export const signupConfirmLinkAPI = (token: string) => async (dispatch: Function
     }
 }
 
-export const signupSuccessAPI = (creds: { email: string, name: string }) => async (dispatch: Function) => {
+export const signupSuccessAPI = (creds: { email: string, name: string, token: string }) => async (dispatch: Function) => {
     dispatch({ type: AUTH_LOADING });
     try {
         let res = await axios.post(`${baseurl}/users/signup/email/confirm`, creds);
         if (res.data.message === 'Signup successful!') {
             dispatch({ type: AUTH_SIGNUP_SUCCESS, payload: res.data })
+        }
+        else {
+            dispatch({ type: AUTH_SUCCESS })
         }
         return res.data;
     }
@@ -99,6 +102,37 @@ export const logoutAPI = (primaryToken: string, refreshToken: string) => async (
             primaryToken, refreshToken
         });
         dispatch({ type: AUTH_LOGOUT });
+        return res.data;
+    }
+    catch (e) {
+        return e;
+    }
+}
+
+export const loginAPI = (email: string) => async (dispatch: Function) => {
+    dispatch({ type: AUTH_LOADING })
+    try {
+        let res = await axios.post(`${baseurl}/users/login`, { email });
+        dispatch({ type: AUTH_SUCCESS });
+        console.log(res)
+        return res.data;
+    }
+    catch (e) {
+        dispatch({ type: AUTH_ERROR });
+        return e;
+    }
+}
+
+export const loginConfirmAPI = (token: string) => async (dispatch: Function) => {
+    dispatch({ type: AUTH_LOADING });
+    try {
+        let res = await axios.post(`${baseurl}/users/login/email`, { token });
+        if (res.data.message === 'Login successful!') {
+            dispatch({ type: AUTH_LOGINSUCCESS, payload: res.data })
+        }
+        else {
+            dispatch({ type: AUTH_SUCCESS })
+        }
         return res.data;
     }
     catch (e) {

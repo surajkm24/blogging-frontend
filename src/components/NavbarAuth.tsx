@@ -13,17 +13,17 @@ import { AppDispatch, RootState } from "../redux/store";
 
 
 export const NavbarAuth = () => {
-    const auth = useSelector((store:RootState) => store.auth);
-    const dispatch = useDispatch<AppDispatch>();
+    const auth = useSelector((store: RootState) => store.auth);
+    const dispatch = useDispatch();
 
     const signout = () => {
-        dispatch(logoutAPI(auth.primaryToken, auth.refreshToken))
+        dispatch<any>(logoutAPI(auth.primaryToken, auth.refreshToken))
     }
 
     return (
         <Box w='100%' display='flex' alignItems='center' justifyContent='space-between'
             h='60px' px={{ base: '25px', lg: "25px" }} boxShadow={{ base: "lg", lg: "none" }}
-            position='sticky' top='0px' borderBottom='1px solid rgba(0,0,0,0.1)' >
+            position='sticky' top='0px' borderBottom='1px solid rgba(0,0,0,0.1)' bg='white' zIndex={2}>
             <Flex alignItems='center' gap='20px'>
                 <NavLink to='/'><Icon as={BsMedium} fontSize='42px' /></NavLink>
                 <Flex alignItems='center' bg='rgba(0,0,0,0.05)' p='8px 15px'
@@ -64,7 +64,7 @@ export const NavbarAuth = () => {
                         <PopoverBody p='0' >
                             <Flex alignItems={'center'} color='rgba(0,0,0,0.7)' mb={'-10px'}
                                 cursor='pointer' display={{ base: "flex", md: "none" }}
-                                gap='18px' _hover={{ cursor: "pointer", color: "black" }} 
+                                gap='18px' _hover={{ cursor: "pointer", color: "black" }}
                                 p='20px 15px 0px 15px'>
                                 <Icon as={BsPencilSquare} fontSize={'20px'} color='rgba(0,0,0,0.65)'
                                     _hover={{ cursor: "pointer", color: "black" }} />

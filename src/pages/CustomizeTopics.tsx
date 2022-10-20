@@ -17,7 +17,7 @@ const topics = ['Programming', 'Data Science', 'Technology',
 export const CustomizeTopics = () => {
     const [selectedTopics, setTopics] = useState<Array<string>>([])
     const { loading, data } = useSelector((store: RootState) => store.auth);
-    const dispatch = useDispatch<AppDispatch>();
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const select = (topic: string) => {
@@ -32,7 +32,7 @@ export const CustomizeTopics = () => {
     }
 
     const addTopics = () => {
-        dispatch(addTopicsAPI(selectedTopics, data._id)).then((res: any) => {
+        dispatch<any>(addTopicsAPI(selectedTopics, data._id)).then((res: any) => {
             navigate('/')
         })
     }

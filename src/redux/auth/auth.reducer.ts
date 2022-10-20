@@ -1,4 +1,4 @@
-import { AUTH_ERROR, AUTH_LOADING, AUTH_SUCCESS, AUTH_SIGNUP_SUCCESS, AUTH_REFRESHTOKEN, AUTH_UPDATEUSERDATA, AUTH_LOGOUT } from "./auth.types";
+import { AUTH_ERROR, AUTH_LOADING, AUTH_SUCCESS, AUTH_SIGNUP_SUCCESS, AUTH_REFRESHTOKEN, AUTH_UPDATEUSERDATA, AUTH_LOGOUT, AUTH_LOGINSUCCESS } from "./auth.types";
 
 type auth = {
     primaryToken: String;
@@ -69,16 +69,28 @@ export const authReducer = (state = initState, action: any) => {
                 primaryToken: action.payload,
             }
         }
+        case AUTH_LOGINSUCCESS: {
+            localStorage.setItem('mediumPrimaryToken', action.payload.primaryToken);
+            localStorage.setItem('mediumRefreshToken', action.payload.refreshToken)
+            return {
+                ...state,
+                loading: false,
+                error: false,
+                primaryToken: action.payload.primaryToken,
+                refreshToken: action.payload.refreshToken,
+                data: action.payload.user
+            }
+        }
         case AUTH_LOGOUT: {
             localStorage.removeItem('mediumPrimaryToken');
             localStorage.removeItem('mediumRefreshToken');
             return {
                 ...state,
-                loading:false,
-                error:false,
-                primaryToken:"",
-                refreshToken:"",
-                data:{}
+                loading: false,
+                error: false,
+                primaryToken: "",
+                refreshToken: "",
+                data: {}
             }
         }
         default: {

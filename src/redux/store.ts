@@ -1,6 +1,8 @@
 import { legacy_createStore, combineReducers, applyMiddleware } from "redux";
 import { authReducer } from "./auth/auth.reducer";
 import thunk from 'redux-thunk';
+import { blogsReducer } from "./blogs/blogs.reducer";
+import { usersReducer } from "./users/users.reducer";
 
 type auth = {
     primaryToken: String;
@@ -11,7 +13,9 @@ type auth = {
 };
 
 const rootReducer = combineReducers({
-    auth: authReducer
+    auth: authReducer,
+    blogs: blogsReducer,
+    users: usersReducer
 })
 
 export const store = legacy_createStore(rootReducer, applyMiddleware(thunk));

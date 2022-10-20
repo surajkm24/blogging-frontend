@@ -17,11 +17,12 @@ export const SignUpWithEmailModal = ({ isOpen, onOpen, onClose }: params) => {
     const { isOpen: confirm, onOpen: confirmOpen, onClose: confirmClose } = useDisclosure();
     const { loading } = useSelector((store: RootState) => store.auth);
     const [emailExs, setEmailExs] = useState<boolean>(false)
-    const dispatch = useDispatch<AppDispatch>();
+    const dispatch = useDispatch();
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        dispatch(signupAPI(email)).then((res: any) => {
+        setEmailExs(false)
+        dispatch<any>(signupAPI(email)).then((res: any) => {
             if (res.message === 'User already exists!') {
                 setEmailExs(true);
             }
@@ -43,7 +44,8 @@ export const SignUpWithEmailModal = ({ isOpen, onOpen, onClose }: params) => {
                             Enter your email address to create an <br /> account.
                         </Text>
                         <Text textAlign='center' fontSize='14px' fontWeight={500} mt={{ base: 10, md: 16 }}>Your email</Text>
-                        <form style={{ width: "fit-content", margin: "auto", display: "grid" }} onSubmit={(e) => handleSubmit(e)}>
+                        <form style={{ width: "fit-content", margin: "auto", display: "grid" }} 
+                        onSubmit={(e) => handleSubmit(e)}>
                             <Input variant='unstyled' type='email' value={email} onChange={
                                 (e) => setEmail(e.target.value)
                             } width={{ base: "85%", sm: '260px' }} textAlign='center' fontSize='15px'
@@ -52,7 +54,11 @@ export const SignUpWithEmailModal = ({ isOpen, onOpen, onClose }: params) => {
                             />
                             <br />
                             <Text mx='auto' color='red' mb='5px' display={emailExs ? 'block' : "none"}>Email is already registered!</Text>
-                            <Button isLoading={loading} loadingText='Submitting' type='submit' _loading={{ background: 'rgba(0,0,0,0.9)' }} fontSize='14px' _hover={{ background: 'rgba(0,0,0,0.8)' }} bg='rgba(0,0,0,0.86)' mt='10px' color='white' h='37px' w='220px' borderRadius='20px' mx='auto'>
+                            <Button isLoading={loading} loadingText='Submitting' type='submit' 
+                            _loading={{ background: 'rgba(0,0,0,0.9)' }} fontSize='14px' 
+                            _hover={{ background: 'rgba(0,0,0,0.8)' }} bg='rgba(0,0,0,0.86)' 
+                            mt='10px' color='white' h='37px' w='220px' borderRadius='20px' 
+                            mx='auto'>
                                 Continue
                             </Button>
                         </form>
