@@ -6,16 +6,18 @@ import { BsBookmarks, BsThreeDots } from 'react-icons/bs';
 import { MdBlock } from 'react-icons/md'
 import { useNavigate } from "react-router-dom";
 import { months } from "../utils/month";
+import { colors } from "../utils/colors";
 
 export const BlogCard = ({ blog }: { blog: any }) => {
     const navigate = useNavigate();
     return (
         <Box py='20px' borderBottom='1px solid rgba(0,0,0,0.2)'>
             <Flex align='center' gap='10px' cursor='pointer'>
-                <Box display='flex' justifyContent='center' bg='#0a192f' color='white' alignItems='center'
-                    h='25px' w='25px' borderRadius='50%'>
+                <Button colorScheme={colors[Math.floor(Math.random() * colors.length)]}
+                    h='40px' w='40px' fontSize='13px'
+                    p='0px 0px' borderRadius='50%'>
                     {blog?.author?.userName[0].toUpperCase()}
-                </Box>
+                </Button>
                 <Text fontSize='15px'>{blog?.author?.userName}</Text>
                 <Text fontSize='15px' color='gray' ml='-5px'>- {months[blog?.createdOn?.month]} {blog?.createdOn.date}</Text>
             </Flex>

@@ -10,7 +10,7 @@ import { Popover, PopoverBody, PopoverContent, PopoverTrigger, PopoverArrow, Pop
 import { useDispatch, useSelector } from "react-redux";
 import { logoutAPI } from "../redux/auth/auth.action";
 import { AppDispatch, RootState } from "../redux/store";
-
+import { colors } from "../utils/colors";
 
 export const NavbarAuth = () => {
     const auth = useSelector((store: RootState) => store.auth);
@@ -49,12 +49,10 @@ export const NavbarAuth = () => {
 
                 <Popover>
                     <PopoverTrigger>
-                        <Button variant='unstyled' p='0' m='0'>
-                            <Box cursor='pointer' bg='black' color='white' w='30px' h='30px'
-                                fontSize='16px' borderRadius='50%'
-                                display='flex' alignItems='center' justifyContent={'center'}>
-                                {auth.data?.userName ? auth.data.userName[0].toUpperCase() : ''}
-                            </Box>
+                    <Button colorScheme={colors[Math.floor(Math.random() * colors.length)]}
+                            h='38px' w='38px' fontSize='15px'
+                            p='0px 0px' borderRadius='50%'>
+                            {auth.data?.userName ? auth.data.userName[0].toUpperCase() : ''}
                         </Button>
                     </PopoverTrigger>
                     <PopoverContent bg='white' px={0} w='260px'

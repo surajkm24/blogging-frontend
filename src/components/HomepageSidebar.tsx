@@ -54,8 +54,8 @@ export const HomepageSidebar = () => {
             </Box>
             <Flex wrap='wrap' gap='10px' py='15px'>
                 {footerLinks.map(ele => (
-                    <Button variant='unstyled' fontSize='13px'
-                    fontWeight={400} color='rgba(0,0,0,0.7)' h='20px'
+                    <Button variant='unstyled' fontSize='12px'
+                    fontWeight={500} color='rgba(0,0,0,0.7)' h='20px'
                     _hover={{color:"black"}}>{ele}</Button>
                 ))}
             </Flex>

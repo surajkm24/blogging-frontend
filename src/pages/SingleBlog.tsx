@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom"
 import { BlogContent } from "../components/BlogContent"
 import { NavbarAuth } from "../components/NavbarAuth"
 import { useEffect } from 'react';
-import { getSingleBlogAPI } from "../redux/blogs/blogs.action"
+import { getBlogCommentsAPI, getSingleBlogAPI } from "../redux/blogs/blogs.action"
 import { BlogContentSidebar } from "../components/BlogContentSidebar"
 
 export const SingleBlog = () => {
@@ -14,6 +14,7 @@ export const SingleBlog = () => {
     useEffect(() => {
         const id = params.id || '';
         dispatch<any>(getSingleBlogAPI(id));
+        dispatch<any>(getBlogCommentsAPI(id));
     }, [])
     return (
         <Box>
